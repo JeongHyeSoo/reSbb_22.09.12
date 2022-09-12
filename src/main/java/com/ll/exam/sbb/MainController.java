@@ -2,6 +2,7 @@ package com.ll.exam.sbb;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -267,10 +268,22 @@ class Article {
 */
 
 
+/*
+생성자가 2개이면 어떤 것이 주 생성자인지를 스프링부트는 알지 못한다. -> 오류 발생
+아예 NoArgsConstructor를 적어 아무 것도 없는 채로 생성하고 Setter를 이용해 추가로 입력하게 만든다.
+정리 : 인자있는 생성자가 여러개인 클래스의 객체를 스프링이 생성해야 할때, 인자없는 생성자를 고른다.
+ */
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
+@Setter
 class Person {
     private int id;
     private int age;
     private String name;
+
+    public Person(int age, String name) {
+        this.age = age;
+        this.name = name;
+    }
 }
