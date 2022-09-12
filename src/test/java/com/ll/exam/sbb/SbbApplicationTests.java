@@ -82,7 +82,7 @@ class SbbApplicationTests {
 
     @Test
     void testJpa5() {
-        List<Question> qList = this.questionRepository.findBySubjectLike("sbb%");
+        List<Question> qList = questionRepository.findBySubjectLike("sbb%");
         Question q = qList.get(0);
         assertEquals("sbb가 무엇인가요?", q.getSubject());
     }
@@ -90,22 +90,22 @@ class SbbApplicationTests {
 
     @Test
     void testJpa6() {
-        Optional<Question> oq = this.questionRepository.findById(1);
+        Optional<Question> oq = questionRepository.findById(1);
         assertTrue(oq.isPresent());
         Question q = oq.get();
         q.setSubject("수정된 제목");
-        this.questionRepository.save(q); // UPDATE
+        questionRepository.save(q); // UPDATE
     }
 
     @Test
     void testJpa7() {
-        assertEquals(2, this.questionRepository.count());
-        Optional<Question> oq = this.questionRepository.findById(1);
+        assertEquals(2, questionRepository.count());
+        Optional<Question> oq = questionRepository.findById(1);
         assertTrue(oq.isPresent());
         Question q = oq.get();
 
-        this.questionRepository.delete(q);
+        questionRepository.delete(q);
 
-        assertEquals(1, this.questionRepository.count());
+        assertEquals(1, questionRepository.count());
     }
 }
