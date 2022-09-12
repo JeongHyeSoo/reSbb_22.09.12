@@ -18,19 +18,21 @@ public class QuestionRepositoryTests {
     private static int lastSampleDataId;
 
     @BeforeEach
-    //본 어노테이션을 붙인 메서드는 테스트 메서드 실행 이전에 수행된다.
+    //본 어노테이션을 붙인 메서드는 테스트 메서드(@Test) 실행 이전에 수행된다.
     void beforeEach() {
         clearData();
         createSampleData();
     }
 
-    private void clearData() {
+    //answerRepositoryTests에서도 쓰기 위해서
+    //public static으로 clear,create data 함수를 작성한다.
+    public static void clearData(QuestionRepository questionRepository) {
         questionRepository.disableForeignKeyChecks();
         questionRepository.truncate();
         questionRepository.enableForeignKeyChecks();
     }
 
-    private void createSampleData() {
+     public static int createSampleData(QuestionRepository questionRepository) {
         Question q1 = new Question();
         q1.setSubject("sbb가 무엇인가요?");
         q1.setContent("sbb에 대해서 알고 싶습니다.");
@@ -43,9 +45,17 @@ public class QuestionRepositoryTests {
         q2.setCreateDate(LocalDateTime.now());
         questionRepository.save(q2);
 
-        lastSampleDataId = q2.getId();
+        return q2.getId();
     }
 
+    //
+    private void createSampleData() {
+        lastSampleDataId = createSampleData(questionRepository);
+    }
+
+    private void clearData() {
+        clearData(questionRepository);
+    }
     @Test
         //본 어노테이션을 붙이면 Test 메서드로 인식하고 테스트 한다.
         //JUnit5 기준으로 접근제한자가 Default 여도 된다. (JUnit4 까지는 public이어야 했었다.)

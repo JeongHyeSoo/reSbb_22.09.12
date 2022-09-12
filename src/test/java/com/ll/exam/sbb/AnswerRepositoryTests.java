@@ -16,30 +16,24 @@ public class AnswerRepositoryTests {
     private int lastSampleDataId;
 
     @BeforeEach
+    //본 어노테이션을 붙인 메서드는 테스트 메서드(@Test) 실행 이전에 수행된다.
     void beforeEach() {
         clearData();
         createSampleData();
     }
 
-    private void createSampleData() {
-        Question q1 = new Question();
-        q1.setSubject("sbb가 무엇인가요?");
-        q1.setContent("sbb에 대해서 알고 싶습니다.");
-        q1.setCreateDate(LocalDateTime.now());
-        questionRepository.save(q1);
-
-        Question q2 = new Question();
-        q2.setSubject("스프링부트 모델 질문입니다.");
-        q2.setContent("id는 자동으로 생성되나요?");
-        q2.setCreateDate(LocalDateTime.now());
-        questionRepository.save(q2);
-    }
-
+//clearData와 createSampleData가 question,answerTests 모두에
+// 중복으로 있었기에 questionRepository의 것을 가져와 사용한다.
     private void clearData() {
+        QuestionRepositoryTests.clearData(questionRepository);
+        //questionRepository truncate는 이제 questionRepositoryTests의 clearData에서 실행한다.
         questionRepository.disableForeignKeyChecks();
-        questionRepository.truncate();
         answerRepository.truncate();
         questionRepository.enableForeignKeyChecks();
+    }
+
+    private void createSampleData() {
+        QuestionRepositoryTests.createSampleData(questionRepository);
     }
 
     @Test
