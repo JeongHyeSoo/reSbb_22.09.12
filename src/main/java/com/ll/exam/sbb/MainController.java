@@ -221,7 +221,7 @@ public class MainController {
         return p;
     }
 
-    //action에서 자동으로 조립된 객체를 입력받기
+    //action에서 자동으로 조립된 객체를 입력받기 (개발자가 편하게 하기 위한 스프링부트 그냥 자동으로 되게 끔 이미 설계되어있다.)
     @GetMapping("addPerson")
     @ResponseBody
     Person addPerson(Person p) {
