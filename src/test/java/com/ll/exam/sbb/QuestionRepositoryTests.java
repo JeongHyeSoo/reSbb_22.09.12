@@ -27,9 +27,7 @@ public class QuestionRepositoryTests {
     //answerRepositoryTests에서도 쓰기 위해서
     //public static으로 clear,create data 함수를 작성한다.
     public static void clearData(QuestionRepository questionRepository) {
-        questionRepository.disableForeignKeyChecks();
-        questionRepository.truncate();
-        questionRepository.enableForeignKeyChecks();
+        questionRepository.truncateTable();
     }
 
      public static int createSampleData(QuestionRepository questionRepository) {
