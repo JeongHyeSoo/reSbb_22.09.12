@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -49,11 +51,17 @@ public class AnswerRepositoryTests {
         a1.setCreateDate(LocalDateTime.now());
         answerRepository.save(a1);
 
+        q.getAnswerList().add(a1);
+
         Answer a2 = new Answer();
         a2.setContent("sbb에서는 주로 스프링부트관련 내용을 다룹니다.");
         a2.setQuestion(q);
         a2.setCreateDate(LocalDateTime.now());
         answerRepository.save(a2);
+
+        q.getAnswerList().add(a2);
+
+        questionRepository.save(q);
     }
 
     @Test
@@ -84,6 +92,8 @@ public class AnswerRepositoryTests {
 
 
     @Test
+    @Transactional
+    @Rollback(false)
     void question으로부터_관련된_질문들_조회() {
         // SELECT * FROM question WHERE id = 1
         Question q = questionRepository.findById(1).get();
