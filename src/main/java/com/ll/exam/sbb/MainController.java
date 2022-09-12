@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -141,20 +143,38 @@ public class MainController {
         return "세션변수 %s의 값이 %s 입니다.".formatted(name, value);
     }
 
+    private List<Article> articles = new ArrayList<>();
+
     @GetMapping("/addArticle")
     @ResponseBody
     public String addArticle(String title, String body) {
         Article article = new Article(title, body);
 
+        articles.add(article);
+
         return "%d번 게시물이 생성되었습니다.".formatted(article.getId());
+    }
+
+    @GetMapping("/article/{id}")
+    @ResponseBody
+    public Article getArticle(@PathVariable int id) {
+        Article article = articles//5만 개의 게시글에서 id가 1번인 게시글은 앞에서 3번째에 있다면
+                .stream()
+                .filter(a -> a.getId() == id) // 1번을 찾고(3번 실행) findFirst로 넘겨준다.
+                .findFirst()
+                .get();
+
+        return article;
     }
 
     //생성자 자동 생성 : @AllArgsConstructor 어노테이션은 모든 필드 값을 파라미터로 받는 생성자를 만들어준다.
     @AllArgsConstructor
+    //게시글 정보를 모두 보고 싶으면 여기에 @Getter
     class Article {
         private static int lastId = 0;
         @Getter
         private final int id;
+        @Getter
         private final String title;
         private final String body;
 
