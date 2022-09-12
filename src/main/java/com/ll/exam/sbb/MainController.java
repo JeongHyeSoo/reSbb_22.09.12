@@ -212,42 +212,65 @@ public class MainController {
         return "%d번 게시물을 삭제하였습니다.".formatted(article.getId());
     }
 
+    //직접 입력 값으로 객체를 생성
+    @GetMapping("addPersonOldWay")
+    @ResponseBody
+    Person addPersonOldWay(int id, int age, String name) {
+        Person p = new Person(id, age, name);
 
-    //생성자 자동 생성 : @AllArgsConstructor 어노테이션은 모든 필드 값을 파라미터로 받는 생성자를 만들어준다.
-    @AllArgsConstructor
+        return p;
+    }
+
+    //action에서 자동으로 조립된 객체를 입력받기
+    @GetMapping("addPerson")
+    @ResponseBody
+    Person addPerson(Person p) {
+        return p;
+    }
+}
+
+//생성자 자동 생성 : @AllArgsConstructor 어노테이션은 모든 필드 값을 파라미터로 받는 생성자를 만들어준다.
+@AllArgsConstructor
+@Getter
+@Setter
+//게시글 정보를 모두 보고 싶으면 여기에 @Getter
+class Article {
+    private static int lastId = 0;
+    private int id;
+    private String title;
+    private String body;
+
+    public Article(String title, String body) {
+        this(++lastId, title, body);
+    }
+}
+/*
+@AllArgsConstructor이 없는 함수는 아래와 같다.
+
+class Article {
+    private static int lastId = 0;
     @Getter
-    @Setter
-    //게시글 정보를 모두 보고 싶으면 여기에 @Getter
-    class Article {
-        private static int lastId = 0;
-        private int id;
-        private String title;
-        private String body;
+    private final int id;
+    private final String title;
+    private final String body;
 
-        public Article(String title, String body) {
-            this(++lastId, title, body);
-        }
+    public Article(String title, String body) {
+        this(++lastId, title, body);
     }
-    /*
-       @AllArgsConstructor이 없는 함수는 아래와 같다.
-       class Article {
-        private static int lastId = 0;
-        @Getter
-        private final int id;
-        private final String title;
-        private final String body;
 
-        public Article(String title, String body) {
-            this(++lastId, title, body);
-        }
-
-        public Article(int id, String title, String body){
-        this.id=id;
-        this.title=title;
-        this.body=body;
-        }
+    public Article(int id, String title, String body) {
+        this.id = id;
+        this.title = title;
+        this.body = body;
     }
-    */
+}
+*/
 
 
+@AllArgsConstructor
+@Getter
+class Person {
+    private int id;
+    private int age;
+    private String name;
 }
