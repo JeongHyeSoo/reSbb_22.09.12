@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -73,6 +74,17 @@ public class QuestionRepositoryTests {
         questionRepository.delete(q);
 
         assertThat(questionRepository.count()).isEqualTo(lastSampleDataId - 1);
+    }
+
+    @Test
+    void 수정() {
+        Question q = this.questionRepository.findById(1).get();
+        q.setSubject("수정된 제목");
+        questionRepository.save(q);
+
+        q = this.questionRepository.findById(1).get();
+
+        assertThat(q.getSubject()).isEqualTo("수정된 제목");
     }
 }
 
