@@ -19,8 +19,8 @@ public interface RepositoryUtil {
 
     //default메서드 (외부 참조o 외부 수정x) 도입하여 중복을 좀 더 제거한다.
     default void truncateTable() {
-        disableForeignKeyChecks();
+        //disableForeignKeyChecks();
         truncate();
-        enableForeignKeyChecks();
+        //enableForeignKeyChecks();
     }
 }

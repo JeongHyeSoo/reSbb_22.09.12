@@ -29,6 +29,7 @@ public class AnswerRepositoryTests {
     private void clearData() {
         QuestionRepositoryTests.clearData(questionRepository);
         //questionRepository truncate는 이제 questionRepositoryTests의 clearData에서 실행한다.
+        answerRepository.deleteAll(); // DELETE FROM question;
         answerRepository.truncateTable();
         /*RepositoryUtil을 인터페이스 다중 상속을 통해 QuestionRepository와 EnswerRepository 모두
         각자의 repository를 참조하여 외래키 관계를 끊을 수 있도록 변경*/
