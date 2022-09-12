@@ -2,6 +2,7 @@ package com.ll.exam.sbb;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -143,7 +145,12 @@ public class MainController {
         return "세션변수 %s의 값이 %s 입니다.".formatted(name, value);
     }
 
-    private List<Article> articles = new ArrayList<>();
+    private List<Article> articles = new ArrayList<>(Arrays.asList(
+            //TEST 데이터
+            new Article("제목", "내용"),
+            new Article("제목", "내용"))
+            //수정할 수 없는
+    );
 
     @GetMapping("/addArticle")
     @ResponseBody
@@ -167,16 +174,35 @@ public class MainController {
         return article;
     }
 
+    @GetMapping("/modifyArticle/{id}")
+    @ResponseBody
+    public String modifyArticle(@PathVariable int id, String title, String body) {
+        Article article = articles
+                .stream()
+                .filter(a -> a.getId() == id) // 1번을 찾는다.
+                .findFirst()
+                .get();
+
+        if (article == null) {
+            return "%d번 게시물은 존재하지 않습니다.".formatted(id);
+        }
+
+        article.setTitle(title);
+        article.setBody(body);
+
+        return "%d번 게시물을 수정하였습니다.".formatted(article.getId());
+    }
+
     //생성자 자동 생성 : @AllArgsConstructor 어노테이션은 모든 필드 값을 파라미터로 받는 생성자를 만들어준다.
     @AllArgsConstructor
+    @Getter
+    @Setter
     //게시글 정보를 모두 보고 싶으면 여기에 @Getter
     class Article {
         private static int lastId = 0;
-        @Getter
-        private final int id;
-        @Getter
-        private final String title;
-        private final String body;
+        private int id;
+        private String title;
+        private String body;
 
         public Article(String title, String body) {
             this(++lastId, title, body);
