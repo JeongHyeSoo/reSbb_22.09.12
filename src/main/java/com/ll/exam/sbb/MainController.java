@@ -169,7 +169,7 @@ public class MainController {
                 .stream()
                 .filter(a -> a.getId() == id) // 1번을 찾고(3번 실행) findFirst로 넘겨준다.
                 .findFirst()
-                .get();
+                .orElse(null);
 
         return article;
     }
@@ -181,7 +181,7 @@ public class MainController {
                 .stream()
                 .filter(a -> a.getId() == id) // 1번을 찾는다.
                 .findFirst()
-                .get();
+                .orElse(null);
 
         if (article == null) {
             return "%d번 게시물은 존재하지 않습니다.".formatted(id);
