@@ -1,5 +1,7 @@
 package com.ll.exam.sbb;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -138,4 +140,48 @@ public class MainController {
 
         return "세션변수 %s의 값이 %s 입니다.".formatted(name, value);
     }
+
+    @GetMapping("/addArticle")
+    @ResponseBody
+    public String addArticle(String title, String body) {
+        Article article = new Article(title, body);
+
+        return "%d번 게시물이 생성되었습니다.".formatted(article.getId());
+    }
+
+    //생성자 자동 생성 : @AllArgsConstructor 어노테이션은 모든 필드 값을 파라미터로 받는 생성자를 만들어준다.
+    @AllArgsConstructor
+    class Article {
+        private static int lastId = 0;
+        @Getter
+        private final int id;
+        private final String title;
+        private final String body;
+
+        public Article(String title, String body) {
+            this(++lastId, title, body);
+        }
+    }
+    /*
+       @AllArgsConstructor이 없는 함수는 아래와 같다.
+       class Article {
+        private static int lastId = 0;
+        @Getter
+        private final int id;
+        private final String title;
+        private final String body;
+
+        public Article(String title, String body) {
+            this(++lastId, title, body);
+        }
+
+        public Article(int id, String title, String body){
+        this.id=id;
+        this.title=title;
+        this.body=body;
+        }
+    }
+    */
+
+
 }
