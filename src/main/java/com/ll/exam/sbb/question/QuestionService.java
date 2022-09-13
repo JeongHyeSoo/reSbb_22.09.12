@@ -19,8 +19,10 @@ public class QuestionService {
 
 
     public Question getQuestion(int id) {
-        Optional<Question> oq = questionRepository.findById(id);
 
+        Optional<Question> oq = questionRepository.findById(id);
+        //Integer나 Double 클래스처럼 'T' 타입의 객체를 포장해주는 래퍼 클래스(Wrapper class)이다.[제네릭 클래스]
+        //
         if ( oq.isPresent() ) {
             return oq.get();
         }
