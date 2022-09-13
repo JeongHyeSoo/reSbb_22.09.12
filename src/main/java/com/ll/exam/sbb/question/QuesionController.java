@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
-@Controller
+@Controller("/question")
 @RequiredArgsConstructor
 // 생성자 주입 -> 이제 final이 붙은 객체들은 모두 autowired가 된다.
 
@@ -27,7 +27,7 @@ import java.util.List;
 public class QuesionController {
     // @Autowired // 필드 주입
     private final QuestionService questionService;
-    @RequestMapping("/question/list")
+    @RequestMapping("/list")
     /* 이 자리에 @ResponseBody가 없으면
     resources/question_list/question_list.html 파일을 뷰로 삼는다.
     */
@@ -43,7 +43,7 @@ public class QuesionController {
 
             return "question_list";
         }
-    @RequestMapping("/question/detail/{id}")
+    @RequestMapping("/detail/{id}")
     public String detail(Model model, @PathVariable int id) {
         Question question = questionService.getQuestion(id);
 
