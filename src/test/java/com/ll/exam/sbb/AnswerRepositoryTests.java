@@ -57,9 +57,8 @@ public class AnswerRepositoryTests {
         a2.setCreateDate(LocalDateTime.now());
         q.addAnswer(a2);
 
-        answerRepository.save(a2);
-
         questionRepository.save(q);
+        //CascadeType.ALL로 바뀌면서 questionRepository.save만 해줘도 알아서 answerRepository.save가된 다.
     }
 
     @Test
