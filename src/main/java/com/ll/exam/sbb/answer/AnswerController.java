@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class AnswerController {
     private final QuestionService questionService;
-    private AnswerService answerService;
+    private final AnswerService answerService;
 
     @PostMapping("/create/{id}")
     public String detail(Model model, @PathVariable int id, String content) {
