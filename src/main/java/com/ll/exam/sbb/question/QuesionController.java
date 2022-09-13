@@ -11,15 +11,27 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 // 생성자 주입 -> 이제 final이 붙은 객체들은 모두 autowired가 된다.
+
+// 지시 방향(일방적이고 폐쇄적이다)
+// controller -> service -> repository
+// SPRING DATA JPA(리포지터리) -> JPA -> 하이버네이트 -> JDBC -> MySQL Driver -> MySQL
+
+// 컨트롤러는 Repository가 있는지 몰라야 한다.
+// 서비스는 웹브라우저라는것이 이 세상에 존재하는지 몰라야 한다.
+// 리포지터리는 서비스를 몰라야 한다.
+// 서비스는 컨트롤러를 몰라야 한다.
+// DB는 리포지터리를 몰라야 한다.
+// SPRING DATA JPA는 MySQL을 몰라야 한다.
+
 public class QuesionController {
     // @Autowired // 필드 주입
-    private final QuestionRepository questionRepository;
+    private final QuestionService questionService;
     @RequestMapping("/question/list")
     /* 이 자리에 @ResponseBody가 없으면
     resources/question_list/question_list.html 파일을 뷰로 삼는다.
     */
     public String list(Model model) {
-        List<Question> questionList = questionRepository.findAll();
+        List<Question> questionList = questionService.getList();
         //모든 question들을 조회해 리스트로 만든다.
         /*
         미래에 실행될 question_list.html 에서
