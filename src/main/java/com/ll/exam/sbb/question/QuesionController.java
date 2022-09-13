@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
-@Controller("/question")
+@RequestMapping("/question")
+@Controller
 @RequiredArgsConstructor
 // 생성자 주입 -> 이제 final이 붙은 객체들은 모두 autowired가 된다.
 
