@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,15 +17,9 @@ public class QuestionService {
     }
 
 
+
     public Question getQuestion(int id) {
-
-        Optional<Question> oq = questionRepository.findById(id);
-        //Integer나 Double 클래스처럼 'T' 타입의 객체를 포장해주는 래퍼 클래스(Wrapper class)이다.[제네릭 클래스]
-        //
-        if ( oq.isPresent() ) {
-            return oq.get();
-        }
-
-        throw new DataNotFoundException("question not found");
+        return questionRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("no %d question not found,".formatted(id)));
     }
 }
