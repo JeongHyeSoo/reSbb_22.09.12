@@ -1,5 +1,6 @@
 package com.ll.exam.sbb.question;
 
+import com.ll.exam.sbb.answer.AnswerForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,8 +48,10 @@ public class QuesionController {
 
             return "question_list";
         }
-    @RequestMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable int id) {
+    //@RequestMapping("/detail/{id}")아래 함수의 리턴값을 그대로 브라우저에 표시
+    //파라미터가 있어야 하니 get으로 변경
+    @GetMapping("/detail/{id}")
+    public String detail(Model model, @PathVariable int id, AnswerForm answerForm) {
         Question question = questionService.getQuestion(id);
 
         model.addAttribute("question", question);
