@@ -63,13 +63,20 @@ public class QuesionController {
     @PostMapping("/create")
     //controller가 model이라는 객체를 파라미터로 받게 하는 메서드
     public String questionCreate(Model model, QuestionFrom questionFrom) {
+        boolean hasError = false;
+
         if (questionFrom.getSubject() == null || questionFrom.getSubject().trim().length() == 0) {
-            model.addAttribute("errorMsg", "제목 좀...");
-            return "question_form";
+            model.addAttribute("subjectErrorMsg", "제목 좀...");
+            hasError = true;
         }
 
         if (questionFrom.getContent() == null || questionFrom.getContent().trim().length() == 0) {
-            model.addAttribute("errorMsg", "내용 좀...");
+            model.addAttribute("contentErrorMsg", "내용 좀...");
+            hasError = true;
+        }
+
+        if (hasError) {
+            model.addAttribute("questionFrom", questionFrom);
             return "question_form";
         }
 
