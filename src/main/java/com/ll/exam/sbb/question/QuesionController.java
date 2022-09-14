@@ -59,17 +59,18 @@ public class QuesionController {
 
     @GetMapping("/create")
     public String questionCreate(QuestionForm questionForm) {
+        //빈 객체라도 생기도록 써준 것 QuestionForm과 같이 바인딩한 객체는 Model 객체로 전달하지 않아도 템플릿에서 사용이 가능하다.
         return "question_form";
     }
 
     @PostMapping("/create")
     //controller가 model이라는 객체를 파라미터로 받게 하는 메서드
     public String questionCreate(Model model, @Valid QuestionForm questionForm, BindingResult bindingResult) {
-
-
+        //@Valid 사용시 QuestionForm의 룰을 하나씩 체크, 문제는 BindingResult안에 담긴다.
+        // 위처럼 @Valid와 BindingResult는 순서를 바꾸지 않고 이어서 적어야 한다.
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("questionFrom", questionForm);
+            //BindingError 안에 이미 에러에 대한 것이 구현되어 있다.
             return "question_form";
         }
 

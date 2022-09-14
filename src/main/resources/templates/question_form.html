@@ -4,27 +4,35 @@
         layout:decorate="~{layout}">
 
 <div layout:fragment="content" class="container">
-  <h5 class="my-3 border-bottom pb-2">질문등록</h5>
+    <h5 class="my-3 border-bottom pb-2">질문등록</h5>
 
-  <div class="alert alert-danger" role="alert" th:if="${subjectErrorMsg != null}" th:text="${subjectErrorMsg}"></div>
-  <div class="alert alert-danger" role="alert" th:if="${contentErrorMsg != null}" th:text="${contentErrorMsg}"></div>
+    <form th:action="@{/question/create}" th:object="${questionForm}" method="post">
+        <!--th:object를 사용하면서 ${questionForm.xx}를 쓸 때 *{xx}로 사용할 수 있다.
+            그리고 아래에서 코드의 fields가 questionForm의 fields이다.-->
+        <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+            <!-- fileds의 errors가 quesion에 관련된 에러다. -->
+            <div th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
+            <!-- th:each는 allErrors를 반복문을 돈다.-->
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="subject">제목</label>
 
+            <input type="text" th:field="*{subject}" class="form-control">
+            <!-- th:field 만으로 input에 id, name, value가 자동으로 생긴다l.
+            하지만 실행 이후에 생기는 id 값이기 때문에 실행 전의 ide에서 label for은 오류로 나온다-->
+            <!-- 이전 코드
+            th:value="${questionForm?.subject}" type="text" name="subject" 에서
+            ?는 questionForm이 있으면 subject를 쓰고 아니면 안쓴다  -->
+        </div>
 
-  <form th:action="@{/question/create}" method="POST">
-    <div class="mb-3">
-      <label class="form-label">제목</label>
-      <input th:value="${questionFrom?.subject}" type="text" name="subject" class="form-control" placeholder="제목을 입력해주세요.">
-    <!-- ?는 questionForm이 있으면 subject를 쓰고 아니면 안쓴다는  -->
-    </div>
+        <div class="mb-3">
+            <label class="form-label">내용</label>
+            <textarea th:field="*{content}" class="form-control" rows="10"></textarea>
+        </div>
 
-    <div class="mb-3">
-      <label class="form-label">내용</label>
-      <textarea name="content" class="form-control" rows="10" placeholder="내용을 입력해주세요."></textarea>
-    </div>
+        <button type="submit" class="btn btn-primary my-2">저장하기</button>
 
-    <button type="submit" class="btn btn-primary my-2">저장하기</button>
-
-  </form>
+    </form>
 </div>
 
 </html>
