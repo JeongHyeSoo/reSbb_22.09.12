@@ -12,8 +12,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="question, loop : ${questionList}">
-            <td th:text="${loop.count}"></td>
+        <tr th:each="question, loop : ${paging}">
+            <td th:text="${loop.count} "></td>
             <td>
                 <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
             </td>
