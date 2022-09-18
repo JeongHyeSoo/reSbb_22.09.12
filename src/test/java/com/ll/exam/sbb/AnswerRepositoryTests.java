@@ -22,8 +22,6 @@ public class AnswerRepositoryTests {
     private QuestionRepository questionRepository;
     @Autowired
     private AnswerRepository answerRepository;
-    private int lastSampleDataId;
-
     @BeforeEach
     //본 어노테이션을 붙인 메서드는 테스트 메서드(@Test) 실행 이전에 수행된다.
     void beforeEach() {
@@ -33,7 +31,7 @@ public class AnswerRepositoryTests {
 
 //clearData와 createSampleData가 question,answerTests 모두에
 // 중복으로 있었기에 questionRepository의 것을 가져와 사용한다.
-    private void clearData() {
+    public static void clearData(AnswerRepository answerRepository, QuestionRepository questionRepository) {
         QuestionRepositoryTests.clearData(questionRepository);
         //questionRepository truncate는 이제 questionRepositoryTests의 clearData에서 실행한다.
         answerRepository.deleteAll(); // DELETE FROM question;
@@ -42,7 +40,9 @@ public class AnswerRepositoryTests {
         각자의 repository를 참조하여 외래키 관계를 끊을 수 있도록 변경*/
         //truncateTable()
     }
-
+    private void clearData() {
+        clearData(answerRepository, questionRepository);
+    }
     private void createSampleData() {
         QuestionRepositoryTests.createSampleData(questionRepository);
 
