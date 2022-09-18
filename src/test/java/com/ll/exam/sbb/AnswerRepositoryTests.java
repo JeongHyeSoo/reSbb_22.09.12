@@ -32,7 +32,7 @@ public class AnswerRepositoryTests {
     private UserRepository userRepository;
 
     @BeforeEach
-    //본 어노테이션을 붙인 메서드는 테스트 메서드(@Test) 실행 이전에 수행된다.
+    //본 어노테이션을 붙인 메서드는 테스트 메서드(@Test)gg 실행 이전에 수행된다.
     void beforeEach() {
         clearData();
         createSampleData();
