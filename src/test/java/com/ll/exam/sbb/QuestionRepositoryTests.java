@@ -5,6 +5,7 @@ import com.ll.exam.sbb.question.Question;
 import com.ll.exam.sbb.question.QuestionRepository;
 import com.ll.exam.sbb.user.SiteUser;
 import com.ll.exam.sbb.user.UserRepository;
+import com.ll.exam.sbb.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,11 @@ public class QuestionRepositoryTests {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserService userService;
+
+
     private static long lastSampleDataId;
-
-
 
     @BeforeEach
     //본 어노테이션을 붙인 메서드는 테스트 메서드(@Test) 실행 이전에 수행된다.
@@ -49,7 +52,9 @@ public class QuestionRepositoryTests {
         UserServiceTests.clearData(userRepository, answerRepository, questionRepository);
     }
 
-     public static long createSampleData(QuestionRepository questionRepository) {
+     public static long createSampleData(UserService userService, QuestionRepository questionRepository) {
+        UserServiceTests.createSampleData(userService);
+
         Question q1 = new Question();
         q1.setSubject("sbb가 무엇인가요?");
         q1.setContent("sbb에 대해서 알고 싶습니다.");
@@ -69,7 +74,7 @@ public class QuestionRepositoryTests {
 
     //
     private void createSampleData() {
-        lastSampleDataId = createSampleData(questionRepository);
+        lastSampleDataId = createSampleData(userService, questionRepository);
     }
 
     private void clearData() {
