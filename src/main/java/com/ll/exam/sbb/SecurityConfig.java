@@ -21,7 +21,11 @@ public class SecurityConfig {
                 .csrf().ignoringAntMatchers("/h2-console/**")
                 .and()
                 .headers().addHeaderWriter(new XFrameOptionsHeaderWriter(
-                        XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN));
+                        XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
+                .and()
+                .formLogin()
+                .loginPage("/user/login")
+                .defaultSuccessUrl("/");
         return http.build();
     }
     // 스프링 시스템에 객체를 등록한다.
