@@ -85,7 +85,7 @@ public class QuestionRepositoryTests {
     void 삭제() {
         assertThat(questionRepository.count()).isEqualTo(lastSampleDataId);
 
-        Question q = this.questionRepository.findById(1l).get();
+        Question q = this.questionRepository.findById(1L).get();
         questionRepository.delete(q);
 
         assertThat(questionRepository.count()).isEqualTo(lastSampleDataId - 1);
@@ -93,11 +93,11 @@ public class QuestionRepositoryTests {
 
     @Test
     void 수정() {
-        Question q = this.questionRepository.findById(1l).get();
+        Question q = this.questionRepository.findById(1L).get();
         q.setSubject("수정된 제목");
         questionRepository.save(q);
 
-        q = this.questionRepository.findById(1l).get();
+        q = this.questionRepository.findById(1L).get();
 
         assertThat(q.getSubject()).isEqualTo("수정된 제목");
     }
