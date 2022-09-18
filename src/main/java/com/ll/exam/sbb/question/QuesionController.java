@@ -1,6 +1,8 @@
 package com.ll.exam.sbb.question;
 
 import com.ll.exam.sbb.answer.AnswerForm;
+import com.ll.exam.sbb.user.SiteUser;
+import com.ll.exam.sbb.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -9,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @RequestMapping("/question")
@@ -30,6 +33,7 @@ import java.util.List;
 public class QuesionController {
     // @Autowired // 필드 주입
     private final QuestionService questionService;
+    private final UserService userService;
     @GetMapping("/list")
     /* 이 자리에 @ResponseBody가 없으면
     resources/question_list/question_list.html 파일을 뷰로 삼는다.
@@ -66,7 +70,7 @@ public class QuesionController {
 
     @PostMapping("/create")
     //controller가 model이라는 객체를 파라미터로 받게 하는 메서드
-    public String questionCreate(Model model, @Valid QuestionForm questionForm, BindingResult bindingResult) {
+    public String questionCreate(Principal principal, Model model, @Valid QuestionForm questionForm, BindingResult bindingResult) {
         //@Valid 사용시 QuestionForm의 룰을 하나씩 체크, 문제는 BindingResult안에 담긴다.
         // 위처럼 @Valid와 BindingResult는 순서를 바꾸지 않고 이어서 적어야 한다.
 
@@ -74,8 +78,8 @@ public class QuesionController {
             //BindingError 안에 이미 에러에 대한 것이 구현되어 있다.
             return "question_form";
         }
-
-        questionService.create(questionForm.getSubject(), questionForm.getContent());
+        SiteUser siteUser = userService.getUser(principal.getName());
+        questionService.create(questionForm.getSubject(), questionForm.getContent(), siteUser);
         return "redirect:/question/list"; // 질문 저장후 질문목록으로 이동
     }
 }
