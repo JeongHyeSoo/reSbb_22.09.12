@@ -49,7 +49,7 @@ public class QuesionController {
     //@RequestMapping("/detail/{id}")아래 함수의 리턴값을 그대로 브라우저에 표시
     //파라미터가 있어야 하니 get으로 변경
     @GetMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable int id, AnswerForm answerForm) {
+    public String detail(Model model, @PathVariable long id, AnswerForm answerForm) {
         Question question = questionService.getQuestion(id);
 
         model.addAttribute("question", question);
