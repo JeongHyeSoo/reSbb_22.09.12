@@ -1,8 +1,10 @@
 package com.ll.exam.sbb;
 
+import com.ll.exam.sbb.answer.AnswerRepository;
 import com.ll.exam.sbb.question.Question;
 import com.ll.exam.sbb.question.QuestionRepository;
 import com.ll.exam.sbb.user.SiteUser;
+import com.ll.exam.sbb.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class QuestionRepositoryTests {
     @Autowired
     private QuestionRepository questionRepository;
+
+
+    @Autowired
+    private AnswerRepository answerRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
     private static long lastSampleDataId;
+
+
 
     @BeforeEach
     //본 어노테이션을 붙인 메서드는 테스트 메서드(@Test) 실행 이전에 수행된다.
@@ -33,9 +45,8 @@ public class QuestionRepositoryTests {
 
     //answerRepositoryTests에서도 쓰기 위해서
     //public static으로 clear,create data 함수를 작성한다.
-    public static void clearData(QuestionRepository questionRepository) {
-        questionRepository.deleteAll(); // DELETE FROM question;
-        questionRepository.truncateTable();
+    public static void clearData(UserRepository userRepository, AnswerRepository answerRepository, QuestionRepository questionRepository) {
+        UserServiceTests.clearData(userRepository, answerRepository, questionRepository);
     }
 
      public static long createSampleData(QuestionRepository questionRepository) {
@@ -62,7 +73,7 @@ public class QuestionRepositoryTests {
     }
 
     private void clearData() {
-        clearData(questionRepository);
+        clearData(userRepository, answerRepository,questionRepository);
     }
     @Test
         //본 어노테이션을 붙이면 Test 메서드로 인식하고 테스트 한다.

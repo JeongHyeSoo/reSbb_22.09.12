@@ -5,6 +5,7 @@ import com.ll.exam.sbb.answer.AnswerRepository;
 import com.ll.exam.sbb.question.Question;
 import com.ll.exam.sbb.question.QuestionRepository;
 import com.ll.exam.sbb.user.SiteUser;
+import com.ll.exam.sbb.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,10 @@ public class AnswerRepositoryTests {
     private QuestionRepository questionRepository;
     @Autowired
     private AnswerRepository answerRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
     @BeforeEach
     //본 어노테이션을 붙인 메서드는 테스트 메서드(@Test) 실행 이전에 수행된다.
     void beforeEach() {
@@ -32,17 +37,17 @@ public class AnswerRepositoryTests {
 
 //clearData와 createSampleData가 question,answerTests 모두에
 // 중복으로 있었기에 questionRepository의 것을 가져와 사용한다.
-    public static void clearData(AnswerRepository answerRepository, QuestionRepository questionRepository) {
-        QuestionRepositoryTests.clearData(questionRepository);
+public static void clearData(UserRepository userRepository, AnswerRepository answerRepository, QuestionRepository questionRepository) {
+    UserServiceTests.clearData(userRepository, answerRepository, questionRepository);
         //questionRepository truncate는 이제 questionRepositoryTests의 clearData에서 실행한다.
-        answerRepository.deleteAll(); // DELETE FROM question;
-        answerRepository.truncateTable();
+        /*answerRepository.deleteAll(); // DELETE FROM question;
+        answerRepository.truncateTable();*/
         /*RepositoryUtil을 인터페이스 다중 상속을 통해 QuestionRepository와 EnswerRepository 모두
         각자의 repository를 참조하여 외래키 관계를 끊을 수 있도록 변경*/
         //truncateTable()
     }
     private void clearData() {
-        clearData(answerRepository, questionRepository);
+        clearData(userRepository, answerRepository, questionRepository);
     }
     private void createSampleData() {
         QuestionRepositoryTests.createSampleData(questionRepository);
