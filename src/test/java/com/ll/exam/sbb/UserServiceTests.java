@@ -47,6 +47,7 @@ public class UserServiceTests {
         questionRepository.truncateTable();
 
         userRepository.deleteAll();
+        userRepository.truncateTable();
     }
 
     private void clearData() {
