@@ -5,8 +5,9 @@
 
 <div layout:fragment="content" class="container">
     <h5 class="my-3 border-bottom pb-2">질문등록</h5>
-    <form th:action="@{''}" th:object="${questionForm}" method="post">
-        <div th:replace="form_errors :: formErrorsFragment"></div>
+    <form th:object="${questionForm}" method="post">
+
+    <form th:action="@{/question/create}" th:object="${questionForm}" method="post">
         <!--th:object를 사용하면서 ${questionForm.xx}를 쓸 때 *{xx}로 사용할 수 있다.
             그리고 아래에서 코드의 fields가 questionForm의 fields이다.-->
         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
